@@ -9,16 +9,29 @@
 </head>
 <body>
     <div class="container">
-        <h1>Crop Image 3 Parts For Instagram</h1>
-        <p>by. gmsaw</strong>.</p>
+        <h1>Crop Image into 3 Parts</h1>
+        <p>by. gmsaw</p>
         <p>Upload gambar dengan ukuran <strong>3175x1350 piksel</strong>.</p>
-        
+
+        <!-- Pilihan Align -->
+        <div class="align-options">
+            <label>
+                <input type="radio" name="align" value="left" checked> Align Kiri
+            </label>
+            <label>
+                <input type="radio" name="align" value="center"> Align Tengah
+            </label>
+            <label>
+                <input type="radio" name="align" value="right"> Align Kanan
+            </label>
+        </div>
+
         <!-- Tombol Upload Custom -->
         <label for="imageInput" class="custom-file-upload">
             Pilih Gambar
         </label>
         <input type="file" id="imageInput" accept="image/*">
-        
+
         <canvas id="canvas" style="display:none;"></canvas>
         <div id="output"></div>
     </div>
