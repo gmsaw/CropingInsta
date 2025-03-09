@@ -39,6 +39,18 @@ p {
     color: #e0e0e0;
 }
 
+/* Pilihan Align */
+.align-options {
+    margin-bottom: 20px;
+}
+
+.align-options label {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
 input[type="file"] {
     display: none;
 }
