@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Image into 3 Parts</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Crop Image 3 Parts For Instagram</h1>
+        <p>by. gmsaw</strong>.</p>
+        <p>Upload gambar dengan ukuran <strong>3175x1350 piksel</strong>.</p>
+        
+        <!-- Tombol Upload Custom -->
+        <label for="imageInput" class="custom-file-upload">
+            Pilih Gambar
+        </label>
+        <input type="file" id="imageInput" accept="image/*">
+        
+        <canvas id="canvas" style="display:none;"></canvas>
+        <div id="output"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
