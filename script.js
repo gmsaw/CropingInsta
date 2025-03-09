@@ -15,6 +15,9 @@ document.getElementById('imageInput').addEventListener('change', function(event)
                     return; // Hentikan proses jika ukuran tidak sesuai
                 }
 
+                // Ambil pilihan align
+                const align = document.querySelector('input[name="align"]:checked').value;
+
                 // Lanjutkan proses cropping jika ukuran sesuai
                 const canvas = document.getElementById('canvas');
                 const ctx = canvas.getContext('2d');
@@ -26,59 +29,43 @@ document.getElementById('imageInput').addEventListener('change', function(event)
                 const output = document.getElementById('output');
                 output.innerHTML = '';
 
-                // Bagian Kiri (tanpa pergeseran)
-                const leftCanvas = document.createElement('canvas');
-                const leftCtx = leftCanvas.getContext('2d');
-                leftCanvas.width = partWidth;
-                leftCanvas.height = img.height;
-                leftCtx.drawImage(canvas, 0, 0, partWidth, img.height, 0, 0, partWidth, img.height);
+                // Fungsi untuk membuat potongan gambar
+                const createCroppedImage = (sx, sy, sw, sh, dx, dy, dw, dh, partName) => {
+                    const tempCanvas = document.createElement('canvas');
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCanvas.width = dw;
+                    tempCanvas.height = dh;
+                    tempCtx.drawImage(canvas, sx, sy, sw, sh, dx, dy, dw, dh);
 
-                const leftDataUrl = leftCanvas.toDataURL('image/png');
-                const leftImgElement = document.createElement('img');
-                leftImgElement.src = leftDataUrl;
-                output.appendChild(leftImgElement);
+                    const dataUrl = tempCanvas.toDataURL('image/png');
+                    const imgElement = document.createElement('img');
+                    imgElement.src = dataUrl;
+                    output.appendChild(imgElement);
 
-                const leftDownloadLink = document.createElement('a');
-                leftDownloadLink.href = leftDataUrl;
-                leftDownloadLink.download = 'part_left.png';
-                leftDownloadLink.textContent = 'Download Bagian Kiri';
-                output.appendChild(leftDownloadLink);
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = dataUrl;
+                    downloadLink.download = `part_${partName}.png`;
+                    downloadLink.textContent = `Download Bagian ${partName}`;
+                    output.appendChild(downloadLink);
+                };
 
-                // Bagian Tengah (geser 65px ke kanan)
-                const centerCanvas = document.createElement('canvas');
-                const centerCtx = centerCanvas.getContext('2d');
-                centerCanvas.width = partWidth;
-                centerCanvas.height = img.height;
-                centerCtx.drawImage(canvas, partWidth + 65, 0, partWidth, img.height, 0, 0, partWidth, img.height);
-
-                const centerDataUrl = centerCanvas.toDataURL('image/png');
-                const centerImgElement = document.createElement('img');
-                centerImgElement.src = centerDataUrl;
-                output.appendChild(centerImgElement);
-
-                const centerDownloadLink = document.createElement('a');
-                centerDownloadLink.href = centerDataUrl;
-                centerDownloadLink.download = 'part_center.png';
-                centerDownloadLink.textContent = 'Download Bagian Tengah';
-                output.appendChild(centerDownloadLink);
-
-                // Bagian Kanan (geser 130px ke kiri)
-                const rightCanvas = document.createElement('canvas');
-                const rightCtx = rightCanvas.getContext('2d');
-                rightCanvas.width = partWidth;
-                rightCanvas.height = img.height;
-                rightCtx.drawImage(canvas, 2 * partWidth - 130, 0, partWidth, img.height, 0, 0, partWidth, img.height);
-
-                const rightDataUrl = rightCanvas.toDataURL('image/png');
-                const rightImgElement = document.createElement('img');
-                rightImgElement.src = rightDataUrl;
-                output.appendChild(rightImgElement);
-
-                const rightDownloadLink = document.createElement('a');
-                rightDownloadLink.href = rightDataUrl;
-                rightDownloadLink.download = 'part_right.png';
-                rightDownloadLink.textContent = 'Download Bagian Kanan';
-                output.appendChild(rightDownloadLink);
+                // Proses cropping berdasarkan pilihan align
+                if (align === 'left') {
+                    // Align Kiri: Kiri tetap, tengah geser 65px kanan, kanan geser 130px kiri
+                    createCroppedImage(0, 0, partWidth, img.height, 0, 0, partWidth, img.height, 'Kiri');
+                    createCroppedImage(partWidth + 65, 0, partWidth, img.height, 0, 0, partWidth, img.height, 'Tengah');
+                    createCroppedImage(2 * partWidth - 130, 0, partWidth, img.height, 0, 0, partWidth, img.height, 'Kanan');
+                } else if (align === 'center') {
+                    // Align Tengah: Tengah tetap, kiri geser 65px kanan, kanan geser 65px kiri
+                    createCroppedImage(65, 0, partWidth, img.height, 0, 0, partWidth, img.height, 'Kiri');
+                    createCroppedImage(partWidth, 0, partWidth, img.height, 0, 0, partWidth, img.height, 'Tengah');
+                    createCroppedImage(2 * partWidth - 65, 0, partWidth, img.height, 0, 0, partWidth, img.height, 'Kanan');
+                } else if (align === 'right') {
+                    // Align Kanan: Kanan tetap, tengah geser 65px kiri, kiri geser 130px kiri
+                    createCroppedImage(130, 0, partWidth, img.height, 0, 0, partWidth, img.height, 'Kiri');
+                    createCroppedImage(partWidth - 65, 0, partWidth, img.height, 0, 0, partWidth, img.height, 'Tengah');
+                    createCroppedImage(2 * partWidth, 0, partWidth, img.height, 0, 0, partWidth, img.height, 'Kanan');
+                }
             };
             img.src = e.target.result;
         };
