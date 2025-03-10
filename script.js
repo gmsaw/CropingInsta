@@ -11,7 +11,7 @@ document.getElementById('imageInput').addEventListener('change', function(event)
 
                 if (img.width !== requiredWidth || img.height !== requiredHeight) {
                     const output = document.getElementById('output');
-                    output.innerHTML = `<p style="color: #ff6b6b;">Ukuran gambar harus ${requiredWidth}x${requiredHeight} piksel. Gambar yang diupload memiliki ukuran ${img.width}x${img.height} piksel.</p>`;
+                    output.innerHTML = `<p style="color: #ff6b6b;">Ukuran gambar harus ${requiredWidth}x${requiredHeight} piksel ganteng. Gambar yang diupload ukuran ${img.width}x${img.height} piksel kocak.</p>`;
                     return; // Hentikan proses jika ukuran tidak sesuai
                 }
 
